@@ -459,7 +459,6 @@ def plot_raw(ctx: dict, raw_dir: Path, y_lim: tuple[float, float] = None) -> Non
         wt_stats["time_h"], wt_stats["mean"].to_numpy(),
         color=Config.WT_COLOR, linewidth=1.5, linestyle="--", label="WT NC", zorder=2,
     )
-    ax.set_xlim(left=0)
     if y_lim is not None:
         ax.set_ylim(y_lim)
 
@@ -480,6 +479,7 @@ def plot_raw(ctx: dict, raw_dir: Path, y_lim: tuple[float, float] = None) -> Non
                         color=color, alpha=0.35, linewidth=0.9, zorder=1,
                         label=f"Guide {guide}" if rep_idx == reps[0] else None)
 
+    ax.set_xlim(left=0)   # set AFTER data so auto-scale captures the full time range first
     ax.set_xlabel("Time (h)")
     ax.set_ylabel("OD600")
     ax.legend(fontsize=8, frameon=False)
@@ -508,7 +508,6 @@ def plot_summary(ctx: dict, summary_dir: Path, y_lim: tuple[float, float] = None
     fig, ax = plt.subplots(figsize=(10, 5))
     outlier_note = f"  ({n_outliers} outlier{'s' if n_outliers != 1 else ''} excluded)" if n_outliers else ""
     ax.set_title(f"{gene}  —  summary{outlier_note}", fontsize=13, fontweight="bold")
-    ax.set_xlim(left=0)
     if y_lim is not None:
         ax.set_ylim(y_lim)
 
@@ -540,6 +539,7 @@ def plot_summary(ctx: dict, summary_dir: Path, y_lim: tuple[float, float] = None
                 label=ec50_label, zorder=4)
         ax.axvline(ec50, color=Config.FIT_COLOR, linewidth=0.8, linestyle=":", alpha=0.7)
 
+    ax.set_xlim(left=0)   # set AFTER data so auto-scale captures the full time range first
     ax.set_xlabel("Time (h)")
     ax.set_ylabel("OD600")
     ax.legend(fontsize=8, frameon=False)
